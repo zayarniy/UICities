@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "Model/tcities.h"
 #include <QFile>
+#include <string>
 
 
 TCities* cities=nullptr;
@@ -14,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
 //    cities=new TCities();
 //    ui->pteLog->appendPlainText("Database is created");
     on_actionNew_triggered();
+    //int a;
+    //a=2001;
+    for (int i=2000; i<2005; i++){
+
+    ui->cbCityNames->addItem((QString::number(i)));
+
+   // ui->cbCityNames->addItem("2002");
+    //ui->cbCityNames->addItem("2003");
+    }
 }
 
 MainWindow::~MainWindow()
@@ -100,5 +110,20 @@ void MainWindow::on_pushButton_2_clicked()
      ui->listwCities->takeItem(ui->listwCities->row(ui->listwCities->currentItem()));
     //ui->listwCities->update();
     cities->RemoveAt(index);
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+
+    int year=ui->cbCityNames->currentText().toInt();
+    TCities* selectedCities=cities->CitiesByYear(year);
+    ui->lwSelectedCities->clear();
+    if (selectedCities==nullptr) return;
+    for(int i=0;i<selectedCities->Count();i++)
+        ui->lwSelectedCities->addItem(QString::fromStdString(selectedCities->GetList()[i]->GetName()+" "+
+                                                             std::to_string(selectedCities->GetList()[i]->GetYear())+" "+
+                                                             std::to_string(selectedCities->GetList()[i]->GetCityPopulation())));
+    delete selectedCities;
 }
 

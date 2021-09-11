@@ -20,7 +20,7 @@ public:
     void ShowListContents();
     void Init();
     int Count();
-
+    int FindByCityName(string CityName);
     TCities* CitiesByYear(int year);
     int CitiesCensuses(string name);
     map<string, TCity*> CitiesMillionaire();

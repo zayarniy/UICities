@@ -107,6 +107,17 @@ int TCities::Count()
     return list.size();
 }
 
+int TCities::FindByCityName(string CityName)
+{   int i=0;
+    for(auto it=list.begin(); it!=list.end(); ++it) {
+        if ((*it)->GetName()==CityName)
+            return i;
+         else ++i;
+        }
+      return -1;
+}
+
+
 TCities* TCities::CitiesByYear(int year)
 {
   TCities* selectedCities=new TCities();
