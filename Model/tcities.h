@@ -4,26 +4,30 @@
 #include <vector>
 #include <map>
 
+
 class TCities
 {
 private:
-    vector<TCity*> list;
+    std::vector<TCity*> list;
 public:
     TCities();
     ~TCities();
-    vector<TCity*> GetList();//!!!
+    std::vector<TCity*> GetList();//!!!
     void Add(TCity* city);
     void Remove(TCity* city);
     void RemoveAt(int index);
-    void Save(string filename);//std::ostream &outstream);
-    void Load(string filename);
+    void Save(std::string filename);//std::ostream &outstream);
+    void Load(std::string filename);
     void ShowListContents();
+    std::vector<std::string> GetCityNames();
     void Init();
+    std::vector<TCity*>::iterator GetBegin();
+    std::vector<TCity*>::iterator GetEnd();
     int Count();
-    int FindByCityName(string CityName);
+    int FindByCityName(std::string CityName);
     TCities* CitiesByYear(int year);
-    int CitiesCensuses(string name);
-    map<string, TCity*> CitiesMillionaire();
+    int CitiesCensuses(std::string name);
+    std::map<std::string, TCity*> CitiesMillionaire();
 };
 
 #endif // TCITIES_H

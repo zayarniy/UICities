@@ -3,16 +3,16 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 class TCity
 {
 public:
-    TCity(const string CityName,const unsigned long CityPopulation, const int CityYear);
-    string GetName()  const;
+    TCity(const std::string CityName,const unsigned long CityPopulation, const int CityYear);
+    std::string GetName()  const;
     unsigned long  GetCityPopulation() const;
     int GetYear() const;
-    void SetName(const string name)
+    void SetName(const std::string name)
     {
         CityName=name;
         //std::cout<<"Set name";
@@ -25,10 +25,10 @@ public:
     {
         CityPopulation=population;
     }
-    friend istream& operator>>(istream &stream, TCity* &obj);
-    friend ostream& operator<<(ostream &stream, TCity &obj);
+    friend std::istream& operator>>(std::istream &stream, TCity* &obj);
+    friend std::ostream& operator<<(std::ostream &stream, TCity &obj);
 private:
-  string CityName;
+  std::string CityName;
   unsigned long  CityPopulation;
   int CityYear;
 };

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+using namespace std;
 
 namespace rmv
 {
@@ -20,9 +21,38 @@ vector<TCity*> TCities::GetList()
 {
     return list;
 }
+
 TCities::TCities()
 {
   this->list=vector<TCity*>();
+}
+std::vector<TCity*>::iterator TCities::GetBegin()
+{
+    return list.begin();
+}
+std::vector<TCity*>::iterator TCities::GetEnd()
+{
+    return list.end();
+}
+
+
+int FindByString(vector<string> list,string str)
+{   int i=0;
+    for(auto it=list.begin(); it!=list.end(); ++it) {
+        if ((*it)==str)
+            return i;
+         else ++i;
+        }
+      return -1;
+}
+
+vector<string> TCities::GetCityNames()
+{
+    vector<string> cities;
+    for (auto it = list.begin(); it != list.end(); ++it)
+        if (FindByString(cities,(*it)->GetName())==-1)
+            cities.push_back((*it)->GetName());
+    return cities;
 }
 
 TCities::~TCities()

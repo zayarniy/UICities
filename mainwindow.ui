@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -306,16 +306,6 @@ p, li { white-space: pre-wrap; }
       <property name="title">
        <string>GroupBox</string>
       </property>
-      <widget class="QListWidget" name="listWidget_4">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>130</y>
-         <width>281</width>
-         <height>192</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QComboBox" name="comboBox_2">
        <property name="geometry">
         <rect>
@@ -339,6 +329,19 @@ p, li { white-space: pre-wrap; }
         <string>Start</string>
        </property>
       </widget>
+      <widget class="QLabel" name="lCount">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>150</y>
+         <width>47</width>
+         <height>13</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QPlainTextEdit" name="plainTextEdit_4">
       <property name="geometry">
@@ -355,6 +358,16 @@ p, li { white-space: pre-wrap; }
      <attribute name="title">
       <string>Task 4</string>
      </attribute>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>110</y>
+        <width>371</width>
+        <height>311</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

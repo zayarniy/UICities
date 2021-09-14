@@ -3,9 +3,17 @@
 #include "Model/tcities.h"
 #include <QFile>
 #include <string>
+#include <QtCharts/QtCharts>
+#include <map>
 
+
+//using namespace QtCharts;
 
 TCities* cities=nullptr;
+QChart* chart;
+QBarSeries* series;
+QValueAxis *axisX;
+QValueAxis *axisY;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,13 +25,26 @@ MainWindow::MainWindow(QWidget *parent)
     on_actionNew_triggered();
     //int a;
     //a=2001;
-    for (int i=2000; i<2005; i++){
+    for (int i=2000; i<2015; i++) ui->cbCityNames->addItem((QString::number(i)));
 
-    ui->cbCityNames->addItem((QString::number(i)));
+    chart=new QChart();
+    series=new QBarSeries();
 
-   // ui->cbCityNames->addItem("2002");
-    //ui->cbCityNames->addItem("2003");
-    }
+    QChartView *chartView = new QChartView(chart);
+    chartView->resize(200,200);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    auto layout=new QVBoxLayout();
+    layout->addWidget(chartView,300);
+    ui->tabWidget->widget(4)->setLayout(layout);
+
+
+
+    //setCentralWidget(chartView);
+
+    //QWidget* w=new QWidget();
+    //w->setLayout(layout);
+    //layout->addStretch(300);
+
 }
 
 MainWindow::~MainWindow()
@@ -93,6 +114,8 @@ void MainWindow::on_actionLoad_data_triggered()
             ui->teYear->setText(QString::number(city->GetYear()));
             */
             ui->listwCities->addItem(QString::fromStdString(city->GetName()));
+            this->on_pushButton_4_clicked();//Список городов
+
         }
 
     }
@@ -125,5 +148,64 @@ void MainWindow::on_pushButton_3_clicked()
                                                              std::to_string(selectedCities->GetList()[i]->GetYear())+" "+
                                                              std::to_string(selectedCities->GetList()[i]->GetCityPopulation())));
     delete selectedCities;
+}
+
+
+void MainWindow::on_actionExit_triggered()
+{
+  this->close();
+}
+
+
+void MainWindow::on_pushButton_5_clicked()
+{   std::string name=ui->comboBox_2->currentText().toStdString();
+
+   int count=cities->CitiesCensuses(name);
+  ui->lCount->setText(QString::number(count));
+  auto names=cities->GetBegin();
+  auto namesEnd=cities->GetEnd();
+  series->clear();
+  QBarSet* set=new QBarSet("");
+  for(;names!=namesEnd;++names)
+     if ((*names)->GetName()==name)
+     {
+         ui->pteLog->appendPlainText(QString::fromStdString((*names)->GetName()));
+         chart->setTitle(QString::fromStdString(name));
+         *set<<(*names)->GetCityPopulation();
+     };
+    series->append(set);
+    chart->addSeries(series);
+
+}
+
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    ui->listWidget_3->clear();
+       std::map<std::string, TCity*> elem=cities->CitiesMillionaire();
+       std::map<std::string,TCity*>::iterator it = elem.begin();
+       for(;it != elem.end(); ++it)
+       {
+          ui->listWidget_3->addItem(QString::fromStdString(it->first));
+       }
+
+}
+
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{
+    ui->pteLog->appendPlainText(QString::number(index));
+      if (index==3)
+      {
+          ui->comboBox_2->clear();
+          std::vector<std::string> cityNames=cities->GetCityNames();
+          auto it=cityNames.begin();
+          for(;it!=cityNames.end();++it)
+          {
+              ui->comboBox_2->addItem(QString::fromStdString((*it)));
+          }
+
+      }
+
 }
 
