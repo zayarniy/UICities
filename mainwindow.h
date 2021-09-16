@@ -40,6 +40,14 @@ private slots:
 
     void on_tabWidget_tabBarClicked(int index);
 
+    void on_comboBox_2_currentIndexChanged(const QString &arg1);
+
+    void on_comboBox_2_currentIndexChanged(int index);
+
+    void on_comboBox_2_activated(const QString &arg1);
+
+    void on_comboBox_2_activated(int index);
+
 private:
     Ui::MainWindow *ui;
 };

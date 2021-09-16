@@ -12,7 +12,8 @@
 TCities* cities=nullptr;
 QChart* chart;
 QBarSeries* series;
-QValueAxis *axisX;
+//QValueAxis *axisX;
+QBarCategoryAxis *axisX;
 QValueAxis *axisY;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -37,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(chartView,300);
     ui->tabWidget->widget(4)->setLayout(layout);
 
-
+    axisX=new QBarCategoryAxis();
+    axisY=new QValueAxis();
 
     //setCentralWidget(chartView);
 
@@ -45,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     //w->setLayout(layout);
     //layout->addStretch(300);
 
+   // connect(ui->comboBox_2,SIGNAL(currentIndexChanged(const QString&)),
+     //       this,SLOT(on_comboBox_2_currentIndexChanged(const QString&)));
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +73,7 @@ void MainWindow::on_pushButton_clicked()
     //QString qs=QString::fromStdString("asd");
     ui->listwCities->addItem(ui->teCityName->toPlainText());
     ui->pteLog->appendPlainText("Add "+ui->teCityName->toPlainText());
+
 }
 
 
@@ -101,7 +106,6 @@ void MainWindow::on_actionLoad_data_triggered()
 {
     if (QFile::exists("database.txt"))
     {
-
         cities->Load("database.txt");
         int count=cities->Count();
         for(int i=0;i<count;i++)
@@ -166,15 +170,28 @@ void MainWindow::on_pushButton_5_clicked()
   auto namesEnd=cities->GetEnd();
   series->clear();
   QBarSet* set=new QBarSet("");
+  QStringList categories;
+
+  chart->setTitle(QString::fromStdString(name));
+  int max=0;
   for(;names!=namesEnd;++names)
      if ((*names)->GetName()==name)
      {
          ui->pteLog->appendPlainText(QString::fromStdString((*names)->GetName()));
-         chart->setTitle(QString::fromStdString(name));
          *set<<(*names)->GetCityPopulation();
+         categories.append(QString::number((*names)->GetYear()));
+         if ((*names)->GetCityPopulation()>max)
+             max=(*names)->GetCityPopulation();
      };
+  axisY->setRange(0,max);
+    axisX->clear();
+    axisX->append(categories);
     series->append(set);
+    series->attachAxis(axisX);
     chart->addSeries(series);
+    chart->addAxis(axisX,Qt::AlignBottom);
+    chart->addAxis(axisY,Qt::AlignLeft);
+
 
 }
 
@@ -206,6 +223,33 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
           }
 
       }
+
+}
+
+
+void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
+{
+    //ui->pteLog->appendPlainText(arg1);
+}
+
+
+void MainWindow::on_comboBox_2_currentIndexChanged(int index)
+{
+    //ui->pteLog->appendPlainText(QString::number(index));
+}
+
+
+void MainWindow::on_comboBox_2_activated(const QString &arg1)
+{
+    //ui->pteLog->appendPlainText(QString::fromStdString(cities->GetList()[arg1]));
+
+}
+
+
+void MainWindow::on_comboBox_2_activated(int index)
+{
+    if (index==-1) return;
+    ui->pteLog->appendPlainText(QString::fromStdString(cities->GetList()[index]->GetName()));
 
 }
 
